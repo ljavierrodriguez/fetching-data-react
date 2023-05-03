@@ -4,12 +4,14 @@ import CardInfo from './components/CardInfo';
 const App = () => {
     const [url] = useState("https://rickandmortyapi.com/api/character");
     const [characters, setCharacters] = useState(null);
-    const [urlDocs] = useState('https://apichile.bsalelab.com/lista-de-endpoints/documentos');
+    const [urlDocs] = useState('https://api.bsale.cl/v1/documents.json?limit=50&offset=0');
+    const [docs, setDocs] = useState(null);
 
     useEffect(() => {
 
         //getCharacters(url);
         getAsyncCharacters(url);
+        getDocumentos(urlDocs);
 
     }, [])
 
@@ -55,11 +57,17 @@ const App = () => {
 
     const getDocumentos = async (url) => {
         try {
-            const respon = await fetch(url, {
-                'Authorization': 'Token: 5279be8b7c600d3573e40f7b8309a30e9c7a5954'
-            })
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'access_token': '',
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            setDocs(data);
         } catch (error) {
-            
+
         }
     }
 
@@ -71,7 +79,7 @@ const App = () => {
                     !!characters && /* entonces */
                     characters.results.map((character, i) => {
                         return (
-                            <div className="col-md-3 col-sm-6 col-12">
+                            <div className="col-md-3 col-sm-6 col-12" key={i}>
                                 <CardInfo id={character.id} name={character.name} image={character.image} />
                             </div>
                         )
