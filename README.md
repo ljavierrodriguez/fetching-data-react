@@ -13,3 +13,7 @@ npm i bootstrap
 ```shell
 npm i react-router-dom
 ```
+
+# instalar json-server
+
+npm i json-server
